@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './configs/mongodb.configs.js'
-import { clerkWebhooks } from './controllers/webhooks.controllers.js'
+import { clerkWebhooks, stripeWebhooks } from './controllers/webhooks.controllers.js'
 import educatorRouter from './routes/educatorRoute.js'
 import { clerkMiddleware } from '@clerk/express'
 import connectCloudinary from './configs/cloudinary.configs.js'
@@ -26,6 +26,7 @@ app.post('/clerk', express.json(),clerkWebhooks)
 app.use('/api/educator', express.json(), educatorRouter)
 app.use('/api/course', express.json(), courseRouter)
 app.use('/api/user', express.json(), userRouter)
+app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
 
 //PORT
 const PORT = process.env.PORT || 5000
